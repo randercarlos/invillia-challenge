@@ -83,6 +83,12 @@ docker-compose exec invillia-challenge-app php artisan migrate --seed
 
 - Em [http://localhost:8000](http://localhost:8000) aparecerá a tela para importação dos dados. Selecione o arquivo, escolha se quer processamento assincrono (via queue) ou não (normal) e clique no botão Enviar(Importe primeiro o arquivo people.xml e depois o shiporders.xml. Pois o 2º arquivo depende do 1º).
 
+- Testes da aplicação poderão ser rodados através do comando:
+
+```sh
+docker-compose exec invillia-challenge-app php artisan test
+```
+
 - Para rodar e testar os endpoints, use a coleção de endpoints exportados do Insomnia que se encontra logo abaixo
 
 ## 📝 Documentação
