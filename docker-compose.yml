@@ -1,0 +1,43 @@
+version: '2'
+
+services:
+  invillia-challenge-db:
+    image: mysql:5.7
+    container_name: invillia-challenge-db
+    volumes:
+      - ./storage/docker/mysql:/var/lib/mysql
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: 96430409
+      MYSQL_DATABASE: invillia-challenge
+      MYSQL_USER: invillia
+      MYSQL_PASSWORD: challenge
+
+  invillia-challenge-app:
+    image: ambientum/php:7.4-nginx
+    container_name: invillia-challenge-app
+    depends_on:
+      - invillia-challenge-db
+    ports:
+      - 8000:8080
+    volumes:
+      - .:/var/www/app
+
+  invillia-challenge-redis:
+    image: redis:latest
+    container_name: invillia-challenge-redis
+    ports:
+      - 6379:6379
+
+  invillia-challenge-queue:
+    image: ambientum/php:7.4-nginx
+    container_name: invillia-challenge-queue
+    depends_on:
+      - invillia-challenge-app
+      - invillia-challenge-redis
+    volumes:
+      - .:/var/www/app
+    command: php artisan queue:work
+
+
